@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    # container_name: nestjs-app
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    depends_on:
+      - database
+    restart: always
+
+  database:
+    image: mysql:latest
+    container_name: mysql-db
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rahasia
+      MYSQL_DATABASE: nest-db
+      MYSQL_USER: hana
+      MYSQL_PASSWORD: rahasia-hana
