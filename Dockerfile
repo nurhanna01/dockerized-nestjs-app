@@ -1,6 +1,7 @@
-FROM node:24.1.0
+# stage 1: builder
+FROM node:24.1.0 AS builder
 
-WORKDIR /my-app
+WORKDIR /app
 
 COPY package*.json ./
 
@@ -9,6 +10,19 @@ RUN npm install
 COPY . .
 
 RUN npm run build
+
+# stage 2:production
+FROM node:24.1.0-slim
+
+WORKDIR /app
+
+# install just prod depedency
+COPY package*.json ./
+
+RUN npm install --omit=dev
+
+# get only build result
+COPY --from=builder /app/dist/ ./dist
 
 EXPOSE 3000
 

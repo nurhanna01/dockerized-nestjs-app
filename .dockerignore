@@ -3,3 +3,6 @@ dist
 .git
 Dockerfile
 docker-compose.yml
+test
+*.spec.ts
+.env
